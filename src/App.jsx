@@ -9,7 +9,7 @@ import {
   Terminal, Settings, Server, ShieldAlert, Copy, CheckCircle2, 
   ChevronRight, Play, Box, Key, ExternalLink, AppWindow, 
   LayoutDashboard, Cloud, RefreshCw, Search, Rocket, 
-  ShieldCheck, Layers, Github, ArrowLeft
+  ShieldCheck, Layers, Github, ArrowLeft, BookOpen
 } from 'lucide-react';
 
 const OcdIcon = ({ size = 24, className = "" }) => (
@@ -52,7 +52,7 @@ const LandingPage = ({ onStart, lang, setLang, t }) => {
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 py-12 max-w-4xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold mb-8 uppercase tracking-widest">
           <Rocket size={14} />
-          {t("Implantação Simplificada", "Simplified Deployment")}
+          {t("The Lobster Way 🦞", "The Lobster Way 🦞")}
         </div>
         
         <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight">
@@ -62,10 +62,10 @@ const LandingPage = ({ onStart, lang, setLang, t }) => {
           </span>
         </h1>
         
-        <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl leading-relaxed">
+        <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-3xl leading-relaxed">
           {t(
-            "O OpenClaw Deployer é um assistente interativo que gera manifestos, scripts e arquiteturas de segurança Zero-Trust para instalar o OpenClaw no seu servidor ou ambiente local.",
-            "OpenClaw Deployer is an interactive assistant that generates manifests, scripts, and Zero-Trust security architectures to install OpenClaw on your server or local environment."
+            "O OpenClaw é o seu assistente de IA pessoal. Qualquer SO. Qualquer Plataforma. Uma ferramenta de código aberto que lhe dá controlo total sobre os seus dados. O OpenClaw Deployer gera a infraestrutura de Gateway WebSocket, manifestos e comandos para instalar tudo num clique.",
+            "OpenClaw is your personal AI assistant. Any OS. Any Platform. An open-source tool that gives you complete control over your data. OpenClaw Deployer generates the WebSocket Gateway infrastructure, manifests, and commands to install everything in one click."
           )}
         </p>
 
@@ -96,18 +96,18 @@ const LandingPage = ({ onStart, lang, setLang, t }) => {
             <div className="bg-blue-500/10 w-12 h-12 rounded-xl flex items-center justify-center text-blue-400 mb-4">
               <Layers size={24} />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">{t("Multi-Ambiente", "Cross-Environment")}</h3>
+            <h3 className="text-lg font-bold text-white mb-2">{t("Privacidade & Self-Hosted", "Privacy & Self-Hosted")}</h3>
             <p className="text-sm text-slate-400 leading-relaxed">
-              {t("Suporta implementações nativas em VPS Linux, WSL2 para desenvolvimento local e Windows via Docker Desktop.", "Supports native deployments on Linux VPS, WSL2 for local development, and Windows via Docker Desktop.")}
+              {t("Implemente o seu assistente com total propriedade dos dados. Sem dependências de cloud, os seus dados continuam a ser seus.", "Deploy your assistant with complete data ownership. No cloud dependencies, your data stays yours.")}
             </p>
           </div>
           <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800">
             <div className="bg-emerald-500/10 w-12 h-12 rounded-xl flex items-center justify-center text-emerald-400 mb-4">
               <Cloud size={24} />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">{t("Easypanel 1-Click", "Easypanel 1-Click")}</h3>
+            <h3 className="text-lg font-bold text-white mb-2">{t("Gateway WebSocket", "WebSocket Gateway")}</h3>
             <p className="text-sm text-slate-400 leading-relaxed">
-              {t("Integração perfeita com o template oficial do Easypanel, transformando o seu servidor numa cloud privada moderna.", "Seamless integration with the official Easypanel template, turning your server into a modern private cloud.")}
+              {t("Serviço gateway de alta performance para comunicação em tempo real com canais como WhatsApp, Telegram, Slack e Discord.", "High-performance gateway service for real-time communication with channels like WhatsApp, Telegram, Slack, and Discord.")}
             </p>
           </div>
           <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800">
@@ -116,7 +116,7 @@ const LandingPage = ({ onStart, lang, setLang, t }) => {
             </div>
             <h3 className="text-lg font-bold text-white mb-2">{t("Segurança Zero-Trust", "Zero-Trust Security")}</h3>
             <p className="text-sm text-slate-400 leading-relaxed">
-              {t("Geração de Gateway Tokens locais, isolamento de contentores e guias de aprovação de dispositivos nativos da IA.", "Local Gateway Token generation, container isolation, and native AI device approval guides.")}
+              {t("Geração de Gateway Tokens locais, isolamento de workspaces de IA e guias de aprovação de dispositivos nativos.", "Local Gateway Token generation, AI workspace isolation, and native device approval guides.")}
             </p>
           </div>
         </div>
@@ -129,7 +129,6 @@ const LandingPage = ({ onStart, lang, setLang, t }) => {
 // COMPONENTE: DEPLOYER (A FERRAMENTA INTERATIVA)
 // ============================================================================
 const DeployerApp = ({ onBack, lang, setLang, t }) => {
-  // Estados para os campos interativos
   const [installPath, setInstallPath] = useState('~/openclaw');
   const [port, setPort] = useState('18789');
   const [restartPolicy, setRestartPolicy] = useState('always');
@@ -198,7 +197,7 @@ const DeployerApp = ({ onBack, lang, setLang, t }) => {
     
     let yaml = `services:
   openclaw:
-    ${installMethod === 'build' ? 'build:\n      context: .\n      dockerfile: Dockerfile' : 'image: openclaw/openclaw:latest'}
+    ${installMethod === 'build' ? 'build:\n      context: .\n      dockerfile: Dockerfile' : 'image: ghcr.io/openclaw/openclaw:latest'}
     container_name: openclaw-gateway
     restart: ${restartPolicy}
     ports:
@@ -280,8 +279,8 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
     { id: 1, title: t("Pré-requisitos", "Prerequisites"), icon: <Server size={20} /> },
     { id: 2, title: t("Tokens e Segurança", "Tokens & Security"), icon: <Key size={20} /> },
     { id: 3, title: t("Deploy 1-Click", "1-Click Deploy"), icon: <Cloud size={20} /> },
-    { id: 4, title: t("Dashboard Link", "Dashboard Link"), icon: <LayoutDashboard size={20} /> },
-    { id: 5, title: t("Aprovar Dispositivo", "Approve Device"), icon: <ShieldAlert size={20} /> },
+    { id: 4, title: t("Onboarding", "Onboarding"), icon: <LayoutDashboard size={20} /> },
+    { id: 5, title: t("Acesso Web", "Web Access"), icon: <ShieldAlert size={20} /> },
   ] : os === 'wsl' ? [
     { id: 1, title: t("Pré-requisitos", "Prerequisites"), icon: <Server size={20} /> },
     { id: 2, title: t("Configuração", "Configuration"), icon: <Settings size={20} /> },
@@ -553,7 +552,7 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                 
                 {os === 'easypanel' ? (
                   <div className="space-y-6 max-w-2xl">
-                    <p className="text-slate-400 mb-4">{t("O Template Oficial do Easypanel requer um", "The Official Easypanel Template requires a")} <strong className="text-white">Gateway Token</strong> {t("em Base64 para garantir a segurança da API. Gerámos um de forma local e segura no seu navegador agora mesmo:", "in Base64 to ensure API security. We generated one locally and securely in your browser right now:")}</p>
+                    <p className="text-slate-400 mb-4">{t("O Template Oficial do Easypanel auto-gera um", "The Official Easypanel Template auto-generates a")} <strong className="text-white">Gateway Token</strong> {t("se deixado em branco, mas recomendamos usar este gerado localmente para manter o controlo da sua segurança:", "if left blank, but we recommend using this locally generated one to maintain control of your security:")}</p>
                     
                     <div className="bg-slate-950 p-6 rounded-xl border border-emerald-900/50 shadow-[0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden">
                       <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
@@ -795,7 +794,7 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                           <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-sm text-slate-300">4</div>
                           <div>
                             <p className="text-sm text-slate-300 font-medium">{t("Clique em", "Click on")} <strong className="text-white bg-blue-600 px-3 py-1 rounded text-xs ml-1 shadow-md shadow-blue-900/20">Create</strong>.</p>
-                            <p className="text-xs text-slate-500 mt-2">{t("O Easypanel fará o download da imagem oficial e criará o seu container automaticamente em alguns segundos.", "Easypanel will download the official image and automatically create your container in a few seconds.")}</p>
+                            <p className="text-xs text-slate-500 mt-2">{t("O Easypanel fará o download da imagem oficial e ligará o seu container com a porta e as configurações nativas do template.", "Easypanel will download the official image and start your container with the port and native settings from the template.")}</p>
                           </div>
                         </div>
                       </div>
@@ -887,39 +886,37 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
             {activeStep === 4 && (
               <div className="p-8 animate-in fade-in slide-in-from-right-4 duration-300">
                 <h2 className="text-2xl font-bold text-white mb-2">
-                  {os === 'easypanel' ? t('Obter Link do Dashboard', 'Get Dashboard Link') : os === 'wsl' ? t('Execução Direta', 'Direct Execution') : t('Execução & Deploy', 'Execution & Deploy')}
+                  {os === 'easypanel' ? t('Assistente de Onboarding', 'Onboarding Wizard') : os === 'wsl' ? t('Execução Direta', 'Direct Execution') : t('Execução & Deploy', 'Execution & Deploy')}
                 </h2>
                 
                 {os === 'easypanel' ? (
                   <div className="space-y-6 max-w-2xl">
-                    <p className="text-slate-400 mb-6">{t("Após criar a aplicação, o Easypanel ligou o contêiner. O OpenClaw bloqueia o acesso à interface Web por defeito. Precisamos de um link mágico (token) para aceder à Web UI pela primeira vez.", "After creating the application, Easypanel started the container. OpenClaw blocks Web UI access by default. We need a magic link (token) to access the Web UI for the first time.")}</p>
-                    
+                    <p className="text-slate-400 mb-6">{t("A documentação oficial do plugin indica que o serviço gateway inicia automaticamente com a flag ", "The official plugin documentation indicates that the gateway service starts automatically with the ")}<code className="text-emerald-400 bg-emerald-900/20 px-1 rounded">--allow-unconfigured</code>. {t("Para concluir o setup, devemos rodar o assistente nativo interativo.", "To complete setup, we must run the native interactive wizard.")}</p>
+
                     <div className="bg-slate-950 p-6 rounded-xl border border-slate-800 shadow-sm relative">
                       <h3 className="text-sm font-bold text-slate-200 mb-4 flex items-center gap-2">
-                        <Terminal size={18} className="text-emerald-400" /> {t("Aceder à Consola do Easypanel", "Access Easypanel Console")}
+                        <Terminal size={18} className="text-emerald-400" /> {t("Executar o Onboarding Oficial", "Run Official Onboarding")}
                       </h3>
                       <ol className="list-decimal list-inside text-sm text-slate-400 space-y-3 mb-6">
                         <li>{t("No Easypanel, clique no serviço recém-criado do", "In Easypanel, click on the newly created")} <strong className="text-white">OpenClaw</strong>.</li>
-                        <li>{t("Clique no botão", "Click the")} <strong className="text-white bg-slate-800 px-2 py-1 rounded border border-slate-700">Console</strong> {t("no topo.", "button at the top.")}</li>
+                        <li>{t("Vá à aba", "Go to the")} <strong className="text-white bg-slate-800 px-2 py-1 rounded border border-slate-700">Console</strong>.</li>
                         <li>{t("Selecione", "Select")} <strong className="text-white">Bash</strong> {t("ou", "or")} <strong className="text-white">sh</strong>.</li>
-                        <li>{t("Cole o seguinte comando e dê", "Paste the following command and press")} <kbd className="bg-slate-800 px-1 rounded">Enter</kbd>:</li>
+                        <li>{t("Execute o seguinte comando e dê", "Run the following command and press")} <kbd className="bg-slate-800 px-1 rounded">Enter</kbd>:</li>
                       </ol>
 
                       <div className="relative group">
                         <pre className="text-sm font-mono text-emerald-400 bg-black p-4 rounded-lg overflow-x-auto border border-slate-800">
-                          openclaw dashboard --no-open
+                          node dist/index.js onboard --no-install-daemon
                         </pre>
-                        <button onClick={() => copyToClipboard('openclaw dashboard --no-open', 'exec_easy')} className="absolute top-3 right-3 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
-                          {copiedStates['exec_easy'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
+                        <button onClick={() => copyToClipboard('node dist/index.js onboard --no-install-daemon', 'exec_onboard')} className="absolute top-3 right-3 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {copiedStates['exec_onboard'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                         </button>
                       </div>
 
-                      <div className="mt-6 p-4 bg-blue-900/10 border border-blue-500/20 rounded-lg">
-                        <p className="text-sm text-blue-300">{t("A consola irá devolver um URL semelhante a este:", "The console will return a URL similar to this:")}<br/>
-                          <code className="mt-2 block font-mono text-xs text-blue-200 bg-black/50 p-2 rounded">http://localhost:18789/?token=abc123xyz</code>
-                        </p>
-                        <p className="text-sm text-blue-300 mt-2 font-medium">{t("Copie APENAS a parte:", "Copy ONLY the part:")} <strong className="text-white">?token=abc123xyz</strong></p>
-                      </div>
+                      <p className="text-sm text-slate-400 mt-5 flex items-start gap-2 bg-slate-900 p-3 rounded-lg border border-slate-800">
+                        <span className="text-amber-500 font-bold">Nota:</span> 
+                        {t("Siga as instruções interativas no terminal para definir o workspace e as configurações iniciais da IA. Depois, prossiga para o próximo passo.", "Follow the interactive instructions in the terminal to set up the workspace and initial AI configurations. Then, proceed to the next step.")}
+                      </p>
                     </div>
                   </div>
                 ) : os === 'wsl' ? (
@@ -1000,26 +997,31 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
             {activeStep === 5 && (
               <div className="p-8 animate-in fade-in slide-in-from-right-4 duration-300 flex flex-col h-full">
                 <h2 className="text-2xl font-bold text-white mb-2">
-                  {os === 'easypanel' ? t('Entrar e Aprovar Dispositivo', 'Login and Approve Device') : t('Autenticação e Acesso', 'Authentication and Access')}
+                  {os === 'easypanel' ? t('Acesso e Dashboard Web', 'Access and Web Dashboard') : t('Autenticação e Acesso', 'Authentication and Access')}
                 </h2>
                 
                 {os === 'easypanel' ? (
                   <div className="space-y-6 max-w-2xl">
-                    <p className="text-slate-400 mb-4">{t("Esta é a medida de segurança final de confiança Zero (Zero Trust) da arquitetura do OpenClaw.", "This is the final Zero Trust security measure of the OpenClaw architecture.")}</p>
+                    <p className="text-slate-400 mb-4">{t("Após o onboarding, a medida de segurança final (Zero Trust) exige aprovação do dispositivo para aceder à Control UI web.", "After onboarding, the final security measure (Zero Trust) requires device approval to access the web Control UI.")}</p>
 
                     <div className="bg-gradient-to-br from-red-900/20 to-slate-900 border border-red-500/20 rounded-xl p-6">
                       <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                        <ExternalLink size={20} className="text-red-400"/> 1. {t("Abrir a Web UI", "Open Web UI")}
+                        <ExternalLink size={20} className="text-red-400"/> 1. {t("Obter Link Mágico", "Get Magic Link")}
                       </h3>
-                      <p className="text-sm text-slate-300 mb-4">
-                        {t("No Easypanel, clique no botão", "In Easypanel, click the")} <strong className="bg-blue-600 text-white px-2 py-1 rounded text-xs">Open</strong> {t("do seu serviço. Ele vai abrir o URL público gerado (ex:", "button of your service. It will open the generated public URL (e.g:")} <code className="text-xs bg-black p-1 rounded">https://openclaw.seu-dominio.com</code>). {t("O ecrã dirá 'Unauthorized'.", "The screen will say 'Unauthorized'.")}
+                      <p className="text-sm text-slate-300 mb-3">
+                        {t("Ainda na consola do Easypanel, gere o seu link de acesso seguro (token de login):", "Still in the Easypanel console, generate your secure access link (login token):")}
                       </p>
-                      <p className="text-sm text-slate-300">
-                        {t("Na barra de endereços do seu navegador, cole o token do Passo 4 no fim do URL e dê Enter:", "In your browser's address bar, paste the token from Step 4 at the end of the URL and hit Enter:")}
-                      </p>
-                      <div className="mt-3 p-3 bg-black/50 border border-slate-700 rounded text-sm font-mono text-emerald-400 break-all">
-                        https://openclaw.seu-dominio.com/<span className="text-yellow-400 font-bold">?token=abc123xyz...</span>
+                      <div className="relative group mb-4">
+                        <pre className="text-sm font-mono text-emerald-400 bg-black p-3 rounded-lg overflow-x-auto border border-slate-800">
+                          node dist/index.js dashboard --no-open
+                        </pre>
+                        <button onClick={() => copyToClipboard('node dist/index.js dashboard --no-open', 'exec_dash')} className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {copiedStates['exec_dash'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
+                        </button>
                       </div>
+                      <p className="text-sm text-slate-300">
+                        {t("Copie o URL devolvido e abra-o no seu navegador de internet. O ecrã dirá 'Pending Approval' ou 'Unauthorized'.", "Copy the returned URL and open it in your internet browser. The screen will say 'Pending Approval' or 'Unauthorized'.")}
+                      </p>
                     </div>
 
                     <div className="bg-slate-950 p-6 rounded-xl border border-slate-800 shadow-sm">
@@ -1027,29 +1029,53 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                         <ShieldAlert size={18} className="text-emerald-400" /> 2. {t("Aprovar a sua Sessão", "Approve your Session")}
                       </h3>
                       <p className="text-sm text-slate-400 mb-4">
-                        {t("A página agora dirá 'Pending Approval'. Volte à Consola do Easypanel (Bash) e liste os dispositivos que tentaram ligar-se:", "The page will now say 'Pending Approval'. Go back to the Easypanel Console (Bash) and list the devices that tried to connect:")}
+                        {t("Volte à consola do serviço para listar e aprovar o seu dispositivo/navegador pendente:", "Go back to the service console to list and approve your pending device/browser:")}
                       </p>
                       <div className="relative group mb-4">
                         <pre className="text-sm font-mono text-emerald-400 bg-black p-3 rounded-lg overflow-x-auto border border-slate-800">
-                          openclaw devices list
+                          node dist/index.js devices list
                         </pre>
-                        <button onClick={() => copyToClipboard('openclaw devices list', 'auth1_list')} className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button onClick={() => copyToClipboard('node dist/index.js devices list', 'auth1_list')} className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
                           {copiedStates['auth1_list'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                         </button>
                       </div>
                       
-                      <p className="text-sm text-slate-400 mb-4">
-                        {t("Copie o", "Copy the")} <strong className="text-white">ID</strong> {t("listado, ou simplesmente aprove todos os dispositivos pendentes agora mesmo:", "listed, or simply approve all pending devices right now:")}
-                      </p>
-                      <div className="relative group">
+                      <div className="relative group mb-4">
                         <pre className="text-sm font-mono text-emerald-400 bg-black p-3 rounded-lg overflow-x-auto border border-slate-800">
-                          openclaw devices approve
+                          node dist/index.js devices approve
                         </pre>
-                        <button onClick={() => copyToClipboard('openclaw devices approve', 'auth1_approve')} className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button onClick={() => copyToClipboard('node dist/index.js devices approve', 'auth1_approve')} className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
                           {copiedStates['auth1_approve'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                         </button>
                       </div>
-                      <p className="text-xs text-emerald-500 font-medium mt-3">✅ {t("A sua Web UI atualizará automaticamente e a IA estará pronta a usar!", "Your Web UI will automatically update and the AI will be ready to use!")}</p>
+                      <p className="text-xs text-emerald-500 font-medium">✅ {t("A sua Web UI atualizará automaticamente e a IA estará pronta a usar!", "Your Web UI will automatically update and the AI will be ready to use!")}</p>
+
+                      {/* Manual Section Easypanel */}
+                      <div className="mt-8 pt-6 border-t border-slate-800">
+                        <h4 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
+                          <BookOpen size={16} className="text-slate-400"/> {t("Manual de Comandos Essenciais", "Essential Commands Manual")}
+                        </h4>
+                        <div className="space-y-4">
+                          <div>
+                            <span className="text-xs text-slate-400 font-medium">{t("Iniciar Gateway Manualmente:", "Start Gateway Manually:")}</span>
+                            <div className="relative group mt-1">
+                              <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">node dist/index.js gateway --bind lan --port {port} --allow-unconfigured</pre>
+                              <button onClick={() => copyToClipboard(`node dist/index.js gateway --bind lan --port ${port} --allow-unconfigured`, 'cmd_easyp_start')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                                {copiedStates['cmd_easyp_start'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                              </button>
+                            </div>
+                          </div>
+                          <div>
+                            <span className="text-xs text-slate-400 font-medium">{t("Diagnóstico e Reparação:", "Diagnostics and Fix:")}</span>
+                            <div className="relative group mt-1">
+                              <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">node dist/index.js doctor --fix</pre>
+                              <button onClick={() => copyToClipboard('node dist/index.js doctor --fix', 'cmd_easyp_doc')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                                {copiedStates['cmd_easyp_doc'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -1114,6 +1140,67 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                           </span>
                         </>
                       )}
+                    </div>
+
+                    {/* Manual Section Outros OS */}
+                    <div className="bg-slate-950 p-6 rounded-xl border border-slate-800 shadow-sm">
+                      <h4 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
+                        <BookOpen size={16} className="text-slate-400"/> {t("Manual de Comandos Essenciais", "Essential Commands Manual")}
+                      </h4>
+                      <div className="space-y-4">
+                        {os === 'wsl' ? (
+                          <>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Iniciar Gateway:", "Start Gateway:")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">export OPENCLAW_GATEWAY_PORT={port} && npx openclaw gateway run</pre>
+                                <button onClick={() => copyToClipboard(`export OPENCLAW_GATEWAY_PORT=${port} && npx openclaw gateway run`, 'cmd_wsl_start')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                                  {copiedStates['cmd_wsl_start'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Diagnóstico:", "Diagnostics:")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">npx openclaw doctor --fix</pre>
+                                <button onClick={() => copyToClipboard('npx openclaw doctor --fix', 'cmd_wsl_doc')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                                  {copiedStates['cmd_wsl_doc'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Iniciar Container (Background):", "Start Container (Background):")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">docker compose up -d</pre>
+                                <button onClick={() => copyToClipboard('docker compose up -d', 'cmd_docker_start')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                                  {copiedStates['cmd_docker_start'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Parar Serviços:", "Stop Services:")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">docker compose down</pre>
+                                <button onClick={() => copyToClipboard('docker compose down', 'cmd_docker_stop')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                                  {copiedStates['cmd_docker_stop'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Ver Logs do OpenClaw:", "View OpenClaw Logs:")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">docker compose logs -f openclaw</pre>
+                                <button onClick={() => copyToClipboard('docker compose logs -f openclaw', 'cmd_docker_logs')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                                  {copiedStates['cmd_docker_logs'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
                     </div>
 
                     {includePortainer && (os === 'linux') && (
