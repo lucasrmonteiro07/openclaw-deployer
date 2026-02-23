@@ -1,16 +1,71 @@
-# React + Vite
+<h1 align="center">🦞 OpenClaw Deployer (OCD)</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+<strong>Um assistente web interativo, moderno e bilíngue (PT-BR / EN-US) desenvolvido para guiar a instalação e o provisionamento do <a href="https://github.com/openclaw/openclaw">OpenClaw</a> (IA Autônoma).</strong>
+</p>
 
-Currently, two official plugins are available:
+<p align="center">
+<a href="https://www.google.com/search?q=https://vercel.com/new/clone%3Frepository-url%3Dhttps://github.com/SEU_USUARIO/openclaw-deployer"><img src="https://www.google.com/search?q=https://vercel.com/button" alt="Deploy with Vercel"/></a>
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+✨ O que este projeto faz?
 
-## React Compiler
+Este projeto funciona como um gerador visual de infraestrutura. Ele cria dinamicamente comandos de terminal, manifestos docker-compose.yml e Dockerfiles seguros baseados no ambiente alvo escolhido. Tudo isso numa interface gráfica moderna, eliminando a necessidade de copiar e colar comandos complexos de documentações longas e mitigando erros de instalação.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🚀 Funcionalidades Principais
 
-## Expanding the ESLint configuration
+🌍 Multilingue em Tempo Real: Suporte nativo para Português (PT-BR) e Inglês (EN-US) com alternância instantânea.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+💻 Multi-Ambiente (Cross-Platform): Instruções e sintaxes ajustadas automaticamente para:
+
+Linux CLI (apt-get, nano, Docker puro)
+
+Windows (PowerShell, Winget, Docker Desktop)
+
+WSL2 Nativo (Ubuntu/Debian, Node.js Bare metal, sem Docker)
+
+Easypanel PaaS (Instalação via 1-Click Template Oficial)
+
+🔐 Segurança Zero-Trust: Ensina e implementa as melhores práticas recomendadas, como manter portas em loopback (127.0.0.1), usar túneis SSH para acesso remoto seguro e lidar com a arquitetura de Gateway Tokens (gerados localmente via WebCrypto API).
+
+🐳 Integração Portainer: Opção de 1 clique para plugar o Portainer CE (interface gráfica de gestão do Docker) diretamente no manifesto gerado.
+
+🛠️ Como Rodar Localmente
+
+Este projeto foi construído num ambiente moderno com React e Vite, e perfeitamente estilizado com TailwindCSS. Para rodar na sua máquina local:
+
+Clone o repositório:
+
+git clone [https://github.com/SEU_USUARIO/openclaw-deployer.git](https://github.com/SEU_USUARIO/openclaw-deployer.git)
+cd openclaw-deployer
+
+
+Instale as dependências:
+
+npm install
+
+
+Inicie o servidor de desenvolvimento:
+
+npm run dev
+
+
+Abra http://localhost:5173 no seu navegador.
+
+🌐 Deploy Rápido (Vercel)
+
+O projeto está otimizado como uma Single Page Application (SPA), ideal para um alojamento gratuito e ultrarrápido na Vercel.
+
+Faça o Fork ou Push deste código para a sua conta no GitHub.
+
+Faça login na Vercel.
+
+Clique em "Add New" > "Project".
+
+Importe o seu repositório openclaw-deployer.
+
+Em "Framework Preset", o sistema detetará automaticamente o Vite.
+
+Clique em Deploy! Em 30 segundos o seu painel de instalação estará online globalmente.
+
+Desenvolvido com ❤️, React e TailwindCSS.
