@@ -5,7 +5,11 @@
 </p>
 
 <p align="center">
-<a href="https://www.google.com/search?q=https://vercel.com/new/clone%3Frepository-url%3Dhttps://github.com/SEU_USUARIO/openclaw-deployer"><img src="https://www.google.com/search?q=https://vercel.com/button" alt="Deploy with Vercel"/></a>
+🌐 <strong>Acesso ao vivo:</strong> <a href="https://www.google.com/search?q=https://openclaw.aurorabi.com.br">openclaw.aurorabi.com.br</a> &nbsp; | &nbsp; 🐙 <strong>Repositório:</strong> <a href="https://github.com/lucasrmonteiro07/openclaw-deployer">lucasrmonteiro07/openclaw-deployer</a>
+</p>
+
+<p align="center">
+<a href="https://www.google.com/search?q=https://vercel.com/new/clone%3Frepository-url%3Dhttps://github.com/lucasrmonteiro07/openclaw-deployer"><img src="https://www.google.com/search?q=https://vercel.com/button" alt="Deploy with Vercel"/></a>
 </p>
 
 ✨ O que este projeto faz?
@@ -36,7 +40,7 @@ Este projeto foi construído num ambiente moderno com React e Vite, e perfeitame
 
 Clone o repositório:
 
-git clone [https://github.com/SEU_USUARIO/openclaw-deployer.git](https://github.com/SEU_USUARIO/openclaw-deployer.git)
+git clone [https://github.com/lucasrmonteiro07/openclaw-deployer.git](https://github.com/lucasrmonteiro07/openclaw-deployer.git)
 cd openclaw-deployer
 
 
