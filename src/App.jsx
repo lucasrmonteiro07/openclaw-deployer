@@ -1,29 +1,15 @@
 /**
- * OpenClaw Deployer (OCD)
+ * OpenClaw Deployer (OCD) - Landing Page + Installer
  * --------------------------------------------------------
- * Dependências necessárias para o projeto (Package.json):
- * npm install lucide-react
- * npm install -D tailwindcss postcss autoprefixer
+ * Dependências: npm install lucide-react
  */
 
 import React, { useState, useEffect } from 'react';
 import { 
-  Terminal, 
-  Settings, 
-  Server, 
-  ShieldAlert, 
-  Copy, 
-  CheckCircle2, 
-  ChevronRight,
-  Play,
-  Box,
-  Key,
-  ExternalLink,
-  AppWindow,
-  LayoutDashboard,
-  Cloud,
-  RefreshCw,
-  Search
+  Terminal, Settings, Server, ShieldAlert, Copy, CheckCircle2, 
+  ChevronRight, Play, Box, Key, ExternalLink, AppWindow, 
+  LayoutDashboard, Cloud, RefreshCw, Search, Rocket, 
+  ShieldCheck, Layers, Github, ArrowLeft
 } from 'lucide-react';
 
 const OcdIcon = ({ size = 24, className = "" }) => (
@@ -35,28 +21,127 @@ const OcdIcon = ({ size = 24, className = "" }) => (
   </div>
 );
 
-export default function App() {
-  // Estado para Idioma
-  const [lang, setLang] = useState('pt'); // 'pt' ou 'en'
+// ============================================================================
+// COMPONENTE: PÁGINA INICIAL (LANDING PAGE)
+// ============================================================================
+const LandingPage = ({ onStart, lang, setLang, t }) => {
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-300 font-sans selection:bg-red-500/30 flex flex-col relative overflow-hidden">
+      
+      {/* Background Decorativo */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-red-900/20 blur-[120px] rounded-full pointer-events-none opacity-50"></div>
 
-  // Função utilitária de tradução rápida
-  const t = (ptText, enText) => lang === 'pt' ? ptText : enText;
+      {/* Header Simples */}
+      <header className="relative z-10 max-w-6xl w-full mx-auto px-6 py-6 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="bg-red-600 p-2 rounded-lg text-white shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+            <OcdIcon size={24} />
+          </div>
+          <span className="font-bold text-xl text-white tracking-tight">OpenClaw <span className="text-red-500">Deployer</span></span>
+        </div>
+        <button 
+          onClick={() => setLang(lang === 'pt' ? 'en' : 'pt')}
+          className="flex items-center gap-2 bg-slate-800/80 hover:bg-slate-700 px-3 py-1.5 rounded-full border border-slate-700 transition-colors"
+        >
+          <span className="text-base leading-none">{lang === 'pt' ? '🇧🇷' : '🇺🇸'}</span>
+          <span className="text-xs font-bold text-slate-200 uppercase tracking-wider">{lang === 'pt' ? 'PT-BR' : 'EN-US'}</span>
+        </button>
+      </header>
 
+      {/* Hero Section */}
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 py-12 max-w-4xl mx-auto">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold mb-8 uppercase tracking-widest">
+          <Rocket size={14} />
+          {t("Implantação Simplificada", "Simplified Deployment")}
+        </div>
+        
+        <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight">
+          {t("A sua IA Autônoma,", "Your Autonomous AI,")} <br/>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-amber-500">
+            {t("Online em Minutos.", "Online in Minutes.")}
+          </span>
+        </h1>
+        
+        <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl leading-relaxed">
+          {t(
+            "O OpenClaw Deployer é um assistente interativo que gera manifestos, scripts e arquiteturas de segurança Zero-Trust para instalar o OpenClaw no seu servidor ou ambiente local.",
+            "OpenClaw Deployer is an interactive assistant that generates manifests, scripts, and Zero-Trust security architectures to install OpenClaw on your server or local environment."
+          )}
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <button 
+            onClick={onStart}
+            className="group flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all hover:scale-105 shadow-[0_0_40px_rgba(220,38,38,0.4)]"
+          >
+            {t("Iniciar Configuração", "Start Configuration")} 
+            <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+          </button>
+          <a 
+            href="https://github.com/openclaw/openclaw" 
+            target="_blank" 
+            rel="noreferrer"
+            className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-xl font-bold text-lg border border-slate-700 transition-colors"
+          >
+            <Github size={20} />
+            {t("Ver Repositório Oficial", "View Official Repo")}
+          </a>
+        </div>
+      </main>
+
+      {/* Features Grid */}
+      <section className="relative z-10 bg-slate-900/50 border-t border-slate-800 py-16">
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+          <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800">
+            <div className="bg-blue-500/10 w-12 h-12 rounded-xl flex items-center justify-center text-blue-400 mb-4">
+              <Layers size={24} />
+            </div>
+            <h3 className="text-lg font-bold text-white mb-2">{t("Multi-Ambiente", "Cross-Environment")}</h3>
+            <p className="text-sm text-slate-400 leading-relaxed">
+              {t("Suporta implementações nativas em VPS Linux, WSL2 para desenvolvimento local e Windows via Docker Desktop.", "Supports native deployments on Linux VPS, WSL2 for local development, and Windows via Docker Desktop.")}
+            </p>
+          </div>
+          <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800">
+            <div className="bg-emerald-500/10 w-12 h-12 rounded-xl flex items-center justify-center text-emerald-400 mb-4">
+              <Cloud size={24} />
+            </div>
+            <h3 className="text-lg font-bold text-white mb-2">{t("Easypanel 1-Click", "Easypanel 1-Click")}</h3>
+            <p className="text-sm text-slate-400 leading-relaxed">
+              {t("Integração perfeita com o template oficial do Easypanel, transformando o seu servidor numa cloud privada moderna.", "Seamless integration with the official Easypanel template, turning your server into a modern private cloud.")}
+            </p>
+          </div>
+          <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800">
+            <div className="bg-amber-500/10 w-12 h-12 rounded-xl flex items-center justify-center text-amber-400 mb-4">
+              <ShieldCheck size={24} />
+            </div>
+            <h3 className="text-lg font-bold text-white mb-2">{t("Segurança Zero-Trust", "Zero-Trust Security")}</h3>
+            <p className="text-sm text-slate-400 leading-relaxed">
+              {t("Geração de Gateway Tokens locais, isolamento de contentores e guias de aprovação de dispositivos nativos da IA.", "Local Gateway Token generation, container isolation, and native AI device approval guides.")}
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+// ============================================================================
+// COMPONENTE: DEPLOYER (A FERRAMENTA INTERATIVA)
+// ============================================================================
+const DeployerApp = ({ onBack, lang, setLang, t }) => {
   // Estados para os campos interativos
   const [installPath, setInstallPath] = useState('~/openclaw');
   const [port, setPort] = useState('18789');
   const [restartPolicy, setRestartPolicy] = useState('always');
   const [exposeExternally, setExposeExternally] = useState(false);
-  const [installMethod, setInstallMethod] = useState('image'); // 'image' ou 'build'
-  const [baseOs, setBaseOs] = useState('linux'); // 'linux'
-  const [os, setOs] = useState('linux'); // 'linux', 'windows', 'easypanel', ou 'wsl'
-  const [wslDistro, setWslDistro] = useState('Ubuntu'); // Distribuição WSL selecionada
+  const [installMethod, setInstallMethod] = useState('image');
+  const [baseOs, setBaseOs] = useState('linux');
+  const [os, setOs] = useState('linux');
+  const [wslDistro, setWslDistro] = useState('Ubuntu');
   const [includePortainer, setIncludePortainer] = useState(false);
   
-  // Estado específico para o Easypanel (Gateway Token gerado localmente)
   const [easyToken, setEasyToken] = useState('');
 
-  // Função para gerar um token seguro (estilo openssl rand -base64 32)
   const generateSecureToken = () => {
     const array = new Uint8Array(24);
     window.crypto.getRandomValues(array);
@@ -64,30 +149,23 @@ export default function App() {
     setEasyToken(token);
   };
 
-  // Efeito para ajustar o caminho padrão e resetar opções conforme o ambiente
   useEffect(() => {
     if (os === 'windows' && installPath === '~/openclaw') {
       setInstallPath('C:\\openclaw');
     } else if ((os === 'linux' || os === 'wsl') && installPath === 'C:\\openclaw') {
       setInstallPath('~/openclaw');
     }
-    
-    // O Docker Desktop no Windows e o Easypanel já possuem interfaces gráficas nativas
     if (os === 'windows' || os === 'easypanel') {
       setIncludePortainer(false);
     }
-    
-    // Se for Easypanel, geramos um token automaticamente se não existir
     if (os === 'easypanel' && !easyToken) {
       generateSecureToken();
     }
   }, [os, installPath, easyToken]);
 
-  // Estado para controle visual
   const [activeStep, setActiveStep] = useState(1);
   const [copiedStates, setCopiedStates] = useState({});
 
-  // Função robusta de cópia para a área de transferência
   const copyToClipboard = (text, id) => {
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(text).then(() => {
@@ -114,7 +192,6 @@ export default function App() {
     }
   };
 
-  // Geração dinâmica do docker-compose.yml (Usado apenas para Linux/Windows)
   const generateDockerCompose = () => {
     const portBinding = exposeExternally ? `"${port}:${installMethod === 'build' ? port : '18789'}"` : `"127.0.0.1:${port}:${installMethod === 'build' ? port : '18789'}"`;
     const normalizedPath = os === 'windows' ? installPath.replace(/\\/g, '/') : installPath;
@@ -155,7 +232,6 @@ volumes:
     return yaml + '\n';
   };
 
-  // Geração dinâmica do Dockerfile Seguro
   const generateDockerfile = () => {
     let pkgManager = 'apt-get';
     let installCmd = 'apt-get update && apt-get install -y';
@@ -200,7 +276,6 @@ EXPOSE ${port}
 CMD ["npx", "openclaw", "gateway", "run"]`;
   };
 
-  // Passos dinâmicos baseados no OS
   const steps = os === 'easypanel' ? [
     { id: 1, title: t("Pré-requisitos", "Prerequisites"), icon: <Server size={20} /> },
     { id: 2, title: t("Tokens e Segurança", "Tokens & Security"), icon: <Key size={20} /> },
@@ -223,23 +298,26 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-300 font-sans selection:bg-red-500/30">
-      {/* Header */}
       <header className="bg-slate-900 border-b border-red-500/20 sticky top-0 z-10 shadow-lg">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-red-600 p-2 rounded-lg text-white shadow-[0_0_15px_rgba(220,38,38,0.5)] flex items-center justify-center">
-              <OcdIcon size={24} />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-slate-100 flex items-center gap-2">
-                OpenClaw <span className="text-red-500">Deployer</span>
-              </h1>
-              <p className="text-xs text-slate-400">{t("Instalação Oficial • Painel Administrativo", "Official Installation • Admin Panel")}</p>
+          <div className="flex items-center gap-4">
+            <button onClick={onBack} className="text-slate-400 hover:text-white transition-colors flex items-center justify-center p-2 bg-slate-800 rounded-lg hover:bg-slate-700">
+              <ArrowLeft size={20} />
+            </button>
+            <div className="flex items-center gap-3 border-l border-slate-700 pl-4">
+              <div className="bg-red-600 p-2 rounded-lg text-white shadow-[0_0_15px_rgba(220,38,38,0.5)] flex items-center justify-center">
+                <OcdIcon size={24} />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-slate-100 flex items-center gap-2">
+                  OpenClaw <span className="text-red-500">Deployer</span>
+                </h1>
+                <p className="text-xs text-slate-400">{t("Instalação Oficial • Painel Administrativo", "Official Installation • Admin Panel")}</p>
+              </div>
             </div>
           </div>
           
           <div className="flex items-center gap-4">
-            {/* Language Toggle */}
             <button 
               onClick={() => setLang(lang === 'pt' ? 'en' : 'pt')}
               className="flex items-center gap-2 bg-slate-800/80 hover:bg-slate-700 px-3 py-1.5 rounded-full border border-slate-700 transition-colors"
@@ -247,17 +325,11 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
               <span className="text-base leading-none">{lang === 'pt' ? '🇧🇷' : '🇺🇸'}</span>
               <span className="text-xs font-bold text-slate-200 uppercase tracking-wider">{lang === 'pt' ? 'PT-BR' : 'EN-US'}</span>
             </button>
-            
-            <div className="hidden sm:flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-              <ShieldAlert size={14} className="text-amber-400" />
-              <span className="text-xs font-medium text-slate-200 uppercase tracking-wider">{t("Modo Admin", "Admin Mode")}</span>
-            </div>
           </div>
         </div>
       </header>
 
       <main className="max-w-5xl mx-auto px-4 py-8 grid md:grid-cols-[250px_1fr] gap-8">
-        
         {/* Sidebar Stepper */}
         <nav className="space-y-1">
           {steps.map((step) => (
@@ -293,8 +365,6 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
 
         {/* Content Area */}
         <div className="bg-slate-900 border border-slate-800 rounded-xl shadow-xl overflow-hidden flex flex-col">
-          
-          {/* Global OS Toggle */}
           <div className="px-8 pt-6 pb-4 border-b border-slate-800/50 flex justify-between items-center bg-slate-900/50 flex-wrap gap-4">
             <span className="text-sm font-medium text-slate-400">{t("Ambiente de Instalação:", "Installation Environment:")}</span>
             <div className="flex bg-slate-950 p-1 rounded-lg border border-slate-800 w-fit">
@@ -326,8 +396,7 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
           </div>
 
           <div className="flex-1 relative overflow-y-auto">
-            
-            {/* --- STEP 1: Pré-requisitos --- */}
+            {/* --- STEP 1 --- */}
             {activeStep === 1 && (
               <div className="p-8 animate-in fade-in slide-in-from-right-4 duration-300">
                 <h2 className="text-2xl font-bold text-white mb-2">{t("Pré-requisitos do Sistema", "System Prerequisites")}</h2>
@@ -475,7 +544,7 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
               </div>
             )}
 
-            {/* --- STEP 2: Configuração / Tokens --- */}
+            {/* --- STEP 2 --- */}
             {activeStep === 2 && (
               <div className="p-8 animate-in fade-in slide-in-from-right-4 duration-300">
                 <h2 className="text-2xl font-bold text-white mb-2">
@@ -674,7 +743,7 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
               </div>
             )}
 
-            {/* --- STEP 3: Deploy/Compose --- */}
+            {/* --- STEP 3 --- */}
             {activeStep === 3 && (
               <div className="p-8 animate-in fade-in slide-in-from-right-4 duration-300">
                 <h2 className="text-2xl font-bold text-white mb-2">
@@ -814,7 +883,7 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
               </div>
             )}
 
-            {/* --- STEP 4: Execução / Dashboard Link --- */}
+            {/* --- STEP 4 --- */}
             {activeStep === 4 && (
               <div className="p-8 animate-in fade-in slide-in-from-right-4 duration-300">
                 <h2 className="text-2xl font-bold text-white mb-2">
@@ -830,7 +899,7 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                         <Terminal size={18} className="text-emerald-400" /> {t("Aceder à Consola do Easypanel", "Access Easypanel Console")}
                       </h3>
                       <ol className="list-decimal list-inside text-sm text-slate-400 space-y-3 mb-6">
-                        <li>{t("No Easypanel, clique no serviço recém-criado do", "In Easypanel, click on the newly created")} <strong className="text-white">OpenClaw</strong> {t("serviço.", "service.")}</li>
+                        <li>{t("No Easypanel, clique no serviço recém-criado do", "In Easypanel, click on the newly created")} <strong className="text-white">OpenClaw</strong>.</li>
                         <li>{t("Clique no botão", "Click the")} <strong className="text-white bg-slate-800 px-2 py-1 rounded border border-slate-700">Console</strong> {t("no topo.", "button at the top.")}</li>
                         <li>{t("Selecione", "Select")} <strong className="text-white">Bash</strong> {t("ou", "or")} <strong className="text-white">sh</strong>.</li>
                         <li>{t("Cole o seguinte comando e dê", "Paste the following command and press")} <kbd className="bg-slate-800 px-1 rounded">Enter</kbd>:</li>
@@ -927,7 +996,7 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
               </div>
             )}
 
-            {/* --- STEP 5: Autenticação Final --- */}
+            {/* --- STEP 5 --- */}
             {activeStep === 5 && (
               <div className="p-8 animate-in fade-in slide-in-from-right-4 duration-300 flex flex-col h-full">
                 <h2 className="text-2xl font-bold text-white mb-2">
@@ -984,7 +1053,6 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                     </div>
                   </div>
                 ) : (
-                  // Windows / Linux / WSL Fallback Step 5
                   <div className="space-y-6 max-w-2xl">
                     <p className="text-slate-400 mb-6">{t("Por motivos de segurança, o painel gera um token automático (Gateway Token) necessário para login no primeiro acesso.", "For security reasons, the panel generates an automatic token (Gateway Token) required for login on the first access.")}</p>
                     
@@ -1083,5 +1151,35 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
         </div>
       </main>
     </div>
+  );
+};
+
+// ============================================================================
+// COMPONENTE PRINCIPAL (CONTROLADOR DE VISTAS)
+// ============================================================================
+export default function App() {
+  const [lang, setLang] = useState('pt');
+  const [isDeploying, setIsDeploying] = useState(false);
+
+  const t = (ptText, enText) => lang === 'pt' ? ptText : enText;
+
+  if (!isDeploying) {
+    return (
+      <LandingPage 
+        onStart={() => setIsDeploying(true)} 
+        lang={lang} 
+        setLang={setLang} 
+        t={t} 
+      />
+    );
+  }
+
+  return (
+    <DeployerApp 
+      onBack={() => setIsDeploying(false)} 
+      lang={lang} 
+      setLang={setLang} 
+      t={t} 
+    />
   );
 }
