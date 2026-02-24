@@ -416,8 +416,11 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                           {copiedStates['req1_easy'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                         </button>
                       </div>
-                      <p className="text-xs text-amber-500 mt-3 font-medium bg-amber-500/10 inline-block px-3 py-2 rounded-lg border border-amber-500/20">
+                      <p className="text-xs text-amber-500 mt-3 font-medium bg-amber-500/10 inline-block px-3 py-2 rounded-lg border border-amber-500/20 mb-2">
                         {t("Após instalar, acesse", "After installing, access")} <strong className="font-mono">http://localhost:3000</strong> {t("(ou o IP do seu servidor) no navegador para criar a sua conta de Admin.", "(or your server's IP) in your browser to create your Admin account.")}
+                      </p>
+                      <p className="text-xs text-emerald-500 font-medium bg-emerald-500/10 inline-block px-3 py-2 rounded-lg border border-emerald-500/20 flex items-center gap-2">
+                        <CheckCircle2 size={14} /> {t("Dica: O Easypanel possui um template oficial do OpenClaw pronto para usar!", "Tip: Easypanel has an official OpenClaw template ready to use!")}
                       </p>
                     </div>
                   ) : os === 'wsl' ? (
@@ -453,16 +456,17 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
 
                       <div className="bg-slate-950 p-4 rounded-lg border border-slate-800">
                         <h3 className="text-slate-200 font-medium mb-2 flex items-center gap-2">
-                          <Terminal size={16} className="text-red-400" /> 2. {t("Instalar Node.js e Git no", "Install Node.js and Git on")} {wslDistro.split('-')[0]} (WSL)
+                          <Terminal size={16} className="text-red-400" /> 2. {t("Instalar Node.js (v22+) e Git no", "Install Node.js (v22+) and Git on")} {wslDistro.split('-')[0]} (WSL)
                         </h3>
-                        <p className="text-xs text-slate-500 mb-2">{t("A instalação nativa não usa Docker. Requer Node.js instalado diretamente no Linux. Execute no terminal do", "Native installation doesn't use Docker. It requires Node.js installed directly on Linux. Execute in the terminal of")} {wslDistro.split('-')[0]}:</p>
+                        <p className="text-xs text-slate-500 mb-2">{t("O OpenClaw requer Node.js v22 ou superior. Execute no terminal do", "OpenClaw requires Node.js v22 or higher. Execute in the terminal of")} {wslDistro.split('-')[0]}:</p>
                         <div className="relative group">
                           <pre className="text-sm font-mono text-emerald-400 bg-black p-3 rounded overflow-x-auto">
                             sudo apt-get update && sudo apt-get install -y curl git build-essential python3{'\n'}
                             curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -{'\n'}
-                            sudo apt-get install -y nodejs
+                            sudo apt-get install -y nodejs{'\n'}
+                            node -v      {'# '}Deve exibir v22.x.x ou superior
                           </pre>
-                          <button onClick={() => copyToClipboard('sudo apt-get update && sudo apt-get install -y curl git build-essential python3\ncurl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -\nsudo apt-get install -y nodejs', 'req2_wsl_native')} className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => copyToClipboard('sudo apt-get update && sudo apt-get install -y curl git build-essential python3\ncurl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -\nsudo apt-get install -y nodejs\nnode -v', 'req2_wsl_native')} className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
                             {copiedStates['req2_wsl_native'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                           </button>
                         </div>
@@ -805,24 +809,27 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                   </div>
                 ) : os === 'wsl' ? (
                   <div className="space-y-6 max-w-2xl">
-                    <p className="text-slate-400 mb-6">{t("Como estamos a usar instalação direta, não necessitamos de ficheiros YAML. Iremos descarregar o código e instalar os pacotes NPM.", "Since we are using direct installation, we don't need YAML files. We will download the code and install NPM packages.")}</p>
+                    <p className="text-slate-400 mb-6">{t("Instalação nativa do OpenClaw via npm global (método oficial recomendado).", "Native OpenClaw installation via global npm (official recommended method).")}</p>
                     
                     <div className="bg-slate-950 p-5 rounded-lg border border-slate-800 shadow-sm">
-                      <h3 className="text-sm font-medium text-slate-200 mb-3">{t("Clonar repositório e instalar dependências", "Clone repository and install dependencies")}</h3>
-                      <p className="text-sm text-slate-500 mb-4">{t("Execute no seu terminal", "Execute in your")} {wslDistro.split('-')[0]} {t("(WSL) os comandos abaixo:", "(WSL) terminal the commands below:")}</p>
+                      <h3 className="text-sm font-medium text-slate-200 mb-3 flex items-center gap-2">
+                        <Box size={16} className="text-emerald-400" /> {t("Instalar OpenClaw Globalmente", "Install OpenClaw Globally")}
+                      </h3>
+                      <p className="text-sm text-slate-500 mb-4">{t("Execute no seu terminal", "Execute in your")} {wslDistro.split('-')[0]} {t("(WSL):", "(WSL):")}</p>
                       
                       <div className="relative group">
                         <pre className="text-sm font-mono text-emerald-400 bg-black p-4 rounded-lg overflow-x-auto border border-slate-800">
-                          git clone https://github.com/openclaw/openclaw.git {installPath}{'\n'}
-                          cd {installPath}{'\n'}
-                          npm install
+                          npm install -g openclaw@latest{'\n'}
+                          {'\n'}
+                          {'# '}Verificar instalação{'\n'}
+                          openclaw --version
                         </pre>
-                        <button onClick={() => copyToClipboard(`git clone https://github.com/openclaw/openclaw.git ${installPath}\ncd ${installPath}\nnpm install`, 'setup_wsl')} className="absolute top-3 right-3 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button onClick={() => copyToClipboard('npm install -g openclaw@latest\nopenclaw --version', 'setup_wsl')} className="absolute top-3 right-3 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
                           {copiedStates['setup_wsl'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                         </button>
                       </div>
-                      <p className="text-xs text-amber-500 mt-3 font-medium bg-amber-500/10 inline-block px-3 py-2 rounded-lg border border-amber-500/20">
-                        {t("Poderá demorar alguns minutos a instalar todos os pacotes Node.js necessários.", "It might take a few minutes to install all required Node.js packages.")}
+                      <p className="text-xs text-emerald-500 mt-3 font-medium bg-emerald-500/10 inline-block px-3 py-2 rounded-lg border border-emerald-500/20 flex items-center gap-2">
+                        <CheckCircle2 size={14} /> {t("Instalação global permite executar 'openclaw' de qualquer diretório.", "Global installation allows running 'openclaw' from any directory.")}
                       </p>
                     </div>
                   </div>
@@ -924,22 +931,43 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                   </div>
                 ) : os === 'wsl' ? (
                   <div className="space-y-6 max-w-2xl">
-                    <p className="text-slate-400 mb-6">{t("Com tudo instalado, inicie o processo do gateway do OpenClaw declarando as variáveis de ambiente necessárias.", "With everything installed, start the OpenClaw gateway process by declaring the necessary environment variables.")}</p>
+                    <p className="text-slate-400 mb-6">{t("Execute o wizard de onboarding oficial para configurar workspace, canais e autenticação.", "Run the official onboarding wizard to configure workspace, channels and authentication.")}</p>
                     
+                    <div className="bg-gradient-to-br from-blue-900/20 to-slate-900 border border-blue-500/20 rounded-xl p-6 mb-6">
+                      <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                        <Settings size={20} className="text-blue-400"/> 1. {t("Wizard de Configuração (Obrigatório)", "Configuration Wizard (Required)")}
+                      </h3>
+                      <p className="text-sm text-slate-300 mb-4">
+                        {t("O wizard oficial guia passo a passo através da configuração do gateway, workspace, canais e skills. Este é o método recomendado.", "The official wizard guides step-by-step through gateway, workspace, channels and skills setup. This is the recommended method.")}
+                      </p>
+                      <div className="relative group mb-4">
+                        <pre className="text-sm font-mono text-blue-400 bg-black p-4 rounded-lg overflow-x-auto border border-slate-800">
+                          openclaw onboard --install-daemon
+                        </pre>
+                        <button onClick={() => copyToClipboard('openclaw onboard --install-daemon', 'exec_wizard')} className="absolute top-3 right-3 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {copiedStates['exec_wizard'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
+                        </button>
+                      </div>
+                      <p className="text-xs text-blue-400 font-medium bg-blue-500/10 inline-block px-3 py-2 rounded-lg border border-blue-500/20">
+                        {t("O wizard irá instalar o daemon do Gateway (systemd) para que execute automaticamente.", "The wizard will install the Gateway daemon (systemd) to run automatically.")}
+                      </p>
+                    </div>
+
                     <div className="bg-slate-950 p-5 rounded-lg border border-slate-800 shadow-sm">
-                      <h3 className="text-sm font-medium text-slate-200 mb-3">{t("Iniciar a aplicação", "Start the application")}</h3>
+                      <h3 className="text-sm font-medium text-slate-200 mb-3 flex items-center gap-2">
+                        <Play size={16} className="text-emerald-400" /> 2. {t("Iniciar Gateway Manualmente (Opcional)", "Start Gateway Manually (Optional)")}
+                      </h3>
+                      <p className="text-sm text-slate-500 mb-4">{t("Se preferir iniciar o gateway manualmente sem o daemon:", "If you prefer to start the gateway manually without daemon:")}</p>
                       <div className="relative group flex items-stretch">
                         <pre className="flex-1 text-sm font-mono text-emerald-400 bg-black p-4 rounded-l-lg overflow-x-auto border border-slate-800 border-r-0">
-                          cd {installPath}{'\n'}
-                          export OPENCLAW_GATEWAY_PORT={port}{'\n'}
-                          npx openclaw gateway run
+                          openclaw gateway --port {port} --verbose
                         </pre>
-                        <button onClick={() => copyToClipboard(`cd ${installPath}\nexport OPENCLAW_GATEWAY_PORT=${port}\nnpx openclaw gateway run`, 'exec_wsl')} className="bg-red-600 hover:bg-red-500 text-white px-6 rounded-r-lg font-medium flex flex-col items-center justify-center gap-1 transition-colors border border-red-600">
+                        <button onClick={() => copyToClipboard(`openclaw gateway --port ${port} --verbose`, 'exec_wsl')} className="bg-red-600 hover:bg-red-500 text-white px-6 rounded-r-lg font-medium flex flex-col items-center justify-center gap-1 transition-colors border border-red-600">
                           {copiedStates['exec_wsl'] ? <CheckCircle2 size={18} /> : <Play size={18} fill="currentColor" />}
                           <span className="text-xs">{copiedStates['exec_wsl'] ? t('Copiado', 'Copied') : 'Run'}</span>
                         </button>
                       </div>
-                      <p className="text-xs text-slate-500 mt-3">{t("Mantenha este terminal aberto para que o assistente continue ativo. (Para uso em background no futuro, considere utilizar o utilitário", "Keep this terminal open so the assistant stays active. (For background use in the future, consider using the utility")} <code className="text-slate-300 bg-slate-800 px-1 rounded">pm2</code>).</p>
+                      <p className="text-xs text-slate-500 mt-3">{t("Mantenha este terminal aberto. Para rodar em background, use o daemon instalado pelo wizard ou pm2.", "Keep this terminal open. To run in background, use the daemon installed by wizard or pm2.")}</p>
                     </div>
                   </div>
                 ) : (
@@ -1161,17 +1189,17 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                             <div>
                               <span className="text-xs text-slate-400 font-medium">{t("Iniciar Gateway:", "Start Gateway:")}</span>
                               <div className="relative group mt-1">
-                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">export OPENCLAW_GATEWAY_PORT={port} && npx openclaw gateway run</pre>
-                                <button onClick={() => copyToClipboard(`export OPENCLAW_GATEWAY_PORT=${port} && npx openclaw gateway run`, 'cmd_wsl_start')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw gateway --port {port} --verbose</pre>
+                                <button onClick={() => copyToClipboard(`openclaw gateway --port ${port} --verbose`, 'cmd_wsl_start')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
                                   {copiedStates['cmd_wsl_start'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                 </button>
                               </div>
                             </div>
                             <div>
-                              <span className="text-xs text-slate-400 font-medium">{t("Diagnóstico:", "Diagnostics:")}</span>
+                              <span className="text-xs text-slate-400 font-medium">{t("Diagnóstico e Reparação:", "Diagnostics and Fix:")}</span>
                               <div className="relative group mt-1">
-                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">npx openclaw doctor --fix</pre>
-                                <button onClick={() => copyToClipboard('npx openclaw doctor --fix', 'cmd_wsl_doc')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw doctor --fix</pre>
+                                <button onClick={() => copyToClipboard('openclaw doctor --fix', 'cmd_wsl_doc')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
                                   {copiedStates['cmd_wsl_doc'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                 </button>
                               </div>
