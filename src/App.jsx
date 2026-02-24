@@ -235,7 +235,7 @@ volumes:
     let pkgManager = 'apt-get';
     let installCmd = 'apt-get update && apt-get install -y';
     let cleanCmd = 'rm -rf /var/lib/apt/lists/*';
-    let nodeSetup = `curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && apt-get install -y nodejs`;
+    let nodeSetup = `curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && apt-get install -y nodejs`;
 
     if (baseOs.includes('alpine')) {
       installCmd = 'apk add --no-cache';
@@ -459,10 +459,10 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                         <div className="relative group">
                           <pre className="text-sm font-mono text-emerald-400 bg-black p-3 rounded overflow-x-auto">
                             sudo apt-get update && sudo apt-get install -y curl git build-essential python3{'\n'}
-                            curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -{'\n'}
+                            curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -{'\n'}
                             sudo apt-get install -y nodejs
                           </pre>
-                          <button onClick={() => copyToClipboard('sudo apt-get update && sudo apt-get install -y curl git build-essential python3\ncurl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -\nsudo apt-get install -y nodejs', 'req2_wsl_native')} className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => copyToClipboard('sudo apt-get update && sudo apt-get install -y curl git build-essential python3\ncurl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -\nsudo apt-get install -y nodejs', 'req2_wsl_native')} className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
                             {copiedStates['req2_wsl_native'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                           </button>
                         </div>
@@ -507,12 +507,15 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                         <div className="relative group">
                           <pre className="text-sm font-mono text-emerald-400 bg-black p-3 rounded overflow-x-auto">
                             curl -fsSL https://get.docker.com | sudo sh{'\n'}
-                            sudo usermod -aG docker $USER
+                            sudo systemctl enable --now docker{'\n'}
+                            sudo usermod -aG docker $USER{'\n'}
+                            newgrp docker
                           </pre>
-                          <button onClick={() => copyToClipboard('curl -fsSL https://get.docker.com | sudo sh\nsudo usermod -aG docker $USER', 'req2')} className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => copyToClipboard('curl -fsSL https://get.docker.com | sudo sh\nsudo systemctl enable --now docker\nsudo usermod -aG docker $USER\nnewgrp docker', 'req2')} className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
                             {copiedStates['req2'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                           </button>
                         </div>
+                        <p className="text-xs text-amber-500 mt-2 font-medium bg-amber-500/10 inline-block px-2 py-1 rounded">{t("O 'newgrp docker' aplica o grupo na sessão atual sem precisar fazer logout. Se encerrar o terminal, repita-o.", "'newgrp docker' applies the group to the current session without needing to log out. If you close the terminal, repeat it.")}</p>
                       </div>
                     </>
                   ) : (
@@ -980,6 +983,11 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                           {copiedStates['exec3'] ? <CheckCircle2 size={18} /> : <Play size={18} fill="currentColor" />} {copiedStates['exec3'] ? t('Copiado', 'Copied') : t('Copiar', 'Copy') + ' Run'}
                         </button>
                       </div>
+                      {os === 'linux' && (
+                        <p className="text-xs text-amber-500 mt-3 font-medium bg-amber-500/10 px-3 py-2 rounded-lg border border-amber-500/20">
+                          {t("Erro 'Permission denied'? Execute", "'Permission denied' error? Run")} <code className="bg-amber-900/30 px-1 rounded font-mono">newgrp docker</code> {t("no terminal e tente novamente. Ou use", "in the terminal and try again. Or use")} <code className="bg-amber-900/30 px-1 rounded font-mono">sudo docker compose up -d</code>.
+                        </p>
+                      )}
                     </div>
                   </div>
                 )}
@@ -1134,10 +1142,10 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                         </>
                       ) : (
                         <>
-                          <p className="text-sm text-slate-300 mb-4">{t("Acesse pelo IP do seu servidor:", "Access via your server's IP:")}</p>
-                          <span className="inline-block text-red-400 font-mono font-bold bg-red-400/10 px-3 py-1.5 rounded-lg border border-red-500/30">
-                            http://IP_DO_SERVIDOR:{port}
-                          </span>
+                          <p className="text-sm text-slate-300 mb-4">{t("Acesse na máquina local onde o Docker está instalado:", "Access from the local machine where Docker is installed:")}</p>
+                          <a href={`http://localhost:${port}`} target="_blank" rel="noreferrer" className="inline-block text-red-400 hover:text-red-300 font-mono font-bold bg-red-400/10 px-3 py-1.5 rounded-lg border border-red-500/30">
+                            http://localhost:{port}
+                          </a>
                         </>
                       )}
                     </div>
@@ -1210,9 +1218,9 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                         </h3>
                         <p className="text-sm text-slate-300 mb-4">{t("Acesse a interface web do Portainer para gerenciar visualmente o OpenClaw e os seus outros contentores:", "Access Portainer's web interface to visually manage OpenClaw and your other containers:")}</p>
                         
-                        <span className="inline-block text-emerald-400 font-mono font-bold bg-emerald-400/10 px-3 py-1.5 rounded-lg border border-emerald-500/30">
-                          {os === 'wsl' ? 'https://127.0.0.1:9443' : 'https://IP_DO_SERVIDOR:9443'}
-                        </span>
+                        <a href="https://localhost:9443" target="_blank" rel="noreferrer" className="inline-block text-emerald-400 hover:text-emerald-300 font-mono font-bold bg-emerald-400/10 px-3 py-1.5 rounded-lg border border-emerald-500/30">
+                          https://localhost:9443
+                        </a>
                         
                         <p className="text-xs text-amber-500 mt-4 font-medium flex items-start gap-2 bg-amber-500/10 p-3 rounded-lg">
                           <ShieldAlert size={16} className="shrink-0 mt-0.5" />
