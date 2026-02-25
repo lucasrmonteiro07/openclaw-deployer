@@ -1,11 +1,11 @@
 # 🔧 Correções Aplicadas - OpenClaw Deployer
 
-**Data**: 24 de fevereiro de 2026  
-**Versão**: 1.1.0
+**Data**: 25 de fevereiro de 2026  
+**Versão**: 1.1.1
 
 ## 📋 Resumo
 
-Correções críticas aplicadas para alinhar as instruções do aplicativo com a **documentação oficial do OpenClaw** e melhores práticas recomendadas.
+Correções aplicadas para alinhar as instruções do aplicativo com a **documentação oficial do OpenClaw (openclaw.ia.br)** e melhores práticas recomendadas.
 
 ---
 
@@ -14,7 +14,7 @@ Correções críticas aplicadas para alinhar as instruções do aplicativo com a
 ### 🔴 **Prioridade ALTA**
 
 #### 1. **Instalação do OpenClaw (WSL Nativo) - Step 3**
-- ❌ **ANTES**: `git clone https://github.com/openclaw/openclaw.git` (instalação from source)
+- ❌ **ANTES**: `curl -fsSL https://openclaw.ai/install.sh | bash` (instalador antigo)
 - ✅ **AGORA**: `npm install -g openclaw@latest` (método oficial recomendado)
 - **Impacto**: Usuários agora seguem o método oficial e mais simples
 - **Arquivo**: `src/App.jsx` (linhas ~810-830)
@@ -25,9 +25,13 @@ Correções críticas aplicadas para alinhar as instruções do aplicativo com a
   ```bash
   # 1. Wizard obrigatório (recomendado)
   openclaw onboard --install-daemon
-  
-  # 2. Manual (opcional)
-  openclaw gateway --port 18789 --verbose
+
+   # 2. Conectar canal (ex.: WhatsApp)
+   openclaw channel add whatsapp
+
+   # 3. Testar / verificar
+   openclaw gateway status
+   openclaw gateway logs -f
   ```
 - **Impacto**: Setup completo automático incluindo workspace, canais e daemon
 - **Arquivo**: `src/App.jsx` (linhas ~932-970)
@@ -36,12 +40,12 @@ Correções críticas aplicadas para alinhar as instruções do aplicativo com a
 - ❌ **ANTES**: 
   ```bash
   export OPENCLAW_GATEWAY_PORT=18789 && npx openclaw gateway run
-  npx openclaw doctor --fix
+   npx openclaw doctor
   ```
 - ✅ **AGORA**:
   ```bash
-  openclaw gateway --port 18789 --verbose
-  openclaw doctor --fix
+   openclaw doctor
+   openclaw update --channel stable
   ```
 - **Impacto**: Comandos corretos após instalação global
 - **Arquivo**: `src/App.jsx` (linhas ~1185-1205)
@@ -50,13 +54,18 @@ Correções críticas aplicadas para alinhar as instruções do aplicativo com a
 
 ### 🟡 **Prioridade MÉDIA**
 
-#### 4. **Melhorias nas Instruções do Easypanel**
+#### 4. **Requisitos Node.js no WSL (atualizado)**
+- ✅ **AGORA**: Node.js 22+ com recomendação de **24 LTS** via **nvm**
+- **Motivo**: Evitar erros de permissão e manter consistência com a doc oficial
+- **Arquivo**: `src/App.jsx` (linhas ~450-490)
+
+#### 5. **Melhorias nas Instruções do Easypanel**
 - ✅ **ADICIONADO**: Dica sobre template oficial do OpenClaw no Easypanel
 - **Texto adicionado**: 
   > "Dica: O Easypanel possui um template oficial do OpenClaw pronto para usar!"
 - **Arquivo**: `src/App.jsx` (linha ~368)
 
-#### 5. **Mensagens de Instalação WSL**
+#### 6. **Mensagens de Instalação WSL**
 - ✅ **MELHORADO**: Clareza sobre instalação global e verificação de versão
 - **Adicionado**: Comando `openclaw --version` após instalação
 - **Adicionado**: Nota sobre instalação global permitir execução de qualquer diretório
@@ -68,10 +77,10 @@ Correções críticas aplicadas para alinhar as instruções do aplicativo com a
 ### ✅ **Instruções Corretas Confirmadas**
 - Docker installation: `curl -fsSL https://get.docker.com | sudo sh` ✅
 - WSL2: `wsl --install -d Ubuntu` ✅
-- Node.js 22: `curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -` ✅
+- Node.js 24 (recomendado) via nvm ✅
 - Easypanel: `curl -sSL https://get.easypanel.io | sh` ✅
 - Docker Compose v2: `docker compose up -d` ✅
-- Porta padrão: `18789` ✅
+- Porta padrão no gerador do OCD (configurável): `18789` ✅
 
 ---
 
@@ -93,21 +102,26 @@ WSL Install → npm install -g openclaw@latest → openclaw onboard --install-da
 
 ## 🔍 Fontes Oficiais Consultadas
 
-1. **OpenClaw GitHub**: https://github.com/openclaw/openclaw
+1. **OpenClaw (Instalação 2026)**: https://openclaw.ia.br/instalacao/
+   - Instalação via npm global: `npm install -g openclaw@latest`
+   - Wizard recomendado: `openclaw onboard --install-daemon`
+   - Requisitos: Node.js 22+ (recomendado 24 LTS) e Windows via WSL2
+
+2. **OpenClaw GitHub**: https://github.com/openclaw/openclaw
    - README oficial confirma: `npm install -g openclaw@latest`
    - Wizard recomendado: `openclaw onboard --install-daemon`
-   - Porta padrão: `18789`
+   - (Porta pode variar por instalação/ambiente)
 
-2. **Microsoft WSL Docs**: https://learn.microsoft.com/en-us/windows/wsl/install
+3. **Microsoft WSL Docs**: https://learn.microsoft.com/en-us/windows/wsl/install
    - Comando: `wsl --install -d Ubuntu` ✅
 
-3. **Docker Docs**: https://docs.docker.com/engine/install/ubuntu/
+4. **Docker Docs**: https://docs.docker.com/engine/install/ubuntu/
    - Script oficial: `curl -fsSL https://get.docker.com | sudo sh` ✅
 
-4. **NodeSource**: https://deb.nodesource.com/
-   - Node.js 22: `setup_22.x` ✅
+5. **nvm**: https://github.com/nvm-sh/nvm
+   - Instalação recomendada para gerenciar Node.js no Linux/WSL ✅
 
-5. **Easypanel Docs**: https://easypanel.io/docs
+6. **Easypanel Docs**: https://easypanel.io/docs
    - Script oficial: `curl -sSL https://get.easypanel.io | sh` ✅
 
 ---
@@ -117,7 +131,8 @@ WSL Install → npm install -g openclaw@latest → openclaw onboard --install-da
 - ✅ **Todas as alterações são não-destrutivas** (apenas melhoria nas instruções)
 - ✅ **Zero erros de lint/build** após correções
 - ✅ **Compatibilidade mantida** com todas as plataformas (Linux, Windows, WSL, Easypanel)
-- ✅ **UI não foi alterada** (apenas textos e comandos)
+- ✅ **UI ajustada apenas em textos/comandos** (sem mudanças estruturais)
+- ✅ **UI ajustada apenas em textos/comandos** (sem mudanças estruturais)
 
 ---
 
@@ -125,7 +140,7 @@ WSL Install → npm install -g openclaw@latest → openclaw onboard --install-da
 
 ### **Prioridade BAIXA** 🟢
 1. Adicionar validação de inputs (porta 1024-65535)
-2. Links diretos para docs oficiais ([docs.openclaw.ai](https://docs.openclaw.ai/))
+2. Links diretos para docs oficiais (openclaw.ia.br)
 3. Adicionar opção "Official Image" no Docker (usar `ghcr.io/openclaw/openclaw:latest`)
 4. Persistência de configurações no localStorage
 

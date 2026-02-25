@@ -56,6 +56,92 @@ npm run dev
 
 Abra http://localhost:5173 no seu navegador.
 
+## 📌 Referência (Instalação Oficial OpenClaw — 2026)
+
+As instruções deste projeto foram alinhadas com a documentação oficial:
+
+- Instalação: https://openclaw.ia.br/instalacao/
+- Tutoriais: https://openclaw.ia.br/tutoriais/
+
+### Requisitos (resumo)
+
+- Node.js **22+** (recomendado: **24 LTS**)
+- Windows: preferencialmente via **WSL2**
+- Uma **API Key** (Anthropic/Claude ou OpenAI)
+
+### TL;DR — instalar e iniciar
+
+```bash
+# 1) instalar o CLI
+npm install -g openclaw@latest
+
+# 2) wizard (configura gateway, workspace, canais e autenticação)
+openclaw onboard --install-daemon
+```
+
+Depois, conecte um canal (ex.: WhatsApp) e teste enviando uma mensagem.
+
+### Comandos essenciais (guia oficial)
+
+```bash
+# Conectar canal (ex.: WhatsApp)
+openclaw channel add whatsapp
+
+# QR não aparece?
+openclaw gateway restart
+
+# Verificar status / logs / diagnóstico
+openclaw gateway status
+openclaw gateway logs -f
+openclaw doctor
+
+# Atualizar
+openclaw update --channel stable
+```
+
+### Referências importantes (API/CLI/Config/Skills)
+
+- CLI (comandos): https://openclaw.ia.br/api/cli/
+- Config (config.yaml): https://openclaw.ia.br/api/config/
+- Skills (conceitos e guias): https://openclaw.ia.br/skills/
+- API REST (HTTP): https://openclaw.ia.br/api/rest/
+- API WebSocket (streaming): https://openclaw.ia.br/api/websocket/
+- Segurança de Skills (permissões/sandbox/auditoria): https://openclaw.ia.br/skills/seguranca/
+- Templates de config (mínima/completa):
+	- https://openclaw.ia.br/templates/config-minimo/
+	- https://openclaw.ia.br/templates/config-completa/
+
+Notas rápidas (docs oficiais):
+
+- Base URL padrão da API: `http://localhost:18789` (porta pode mudar via config)
+- WebSocket padrão: `ws://localhost:18789/ws`
+- Se você expuser a porta para fora do servidor, considere configurar token no `config.yaml` e manter `bind: localhost` quando possível (use túnel SSH para acesso remoto).
+
+Exemplo (API protegida com token no `config.yaml`):
+
+```yaml
+gateway:
+	auth:
+		token: "seu_token_secreto"
+```
+
+E envie o token no header:
+
+```text
+Authorization: Bearer seu_token_aqui
+```
+
+Exemplos úteis da CLI (doc oficial):
+
+```bash
+# Ver a configuração atual
+openclaw config get
+
+# Skills (plugins)
+openclaw skill list
+openclaw skill install browser-control
+```
+
 🌐 Deploy Rápido (Vercel)
 
 O projeto está otimizado como uma Single Page Application (SPA), ideal para um alojamento gratuito e ultrarrápido na Vercel.

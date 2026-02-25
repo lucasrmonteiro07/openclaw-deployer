@@ -235,7 +235,7 @@ volumes:
     let pkgManager = 'apt-get';
     let installCmd = 'apt-get update && apt-get install -y';
     let cleanCmd = 'rm -rf /var/lib/apt/lists/*';
-    let nodeSetup = `curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && apt-get install -y nodejs`;
+    let nodeSetup = `curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && apt-get install -y nodejs`;
 
     if (baseOs.includes('alpine')) {
       installCmd = 'apk add --no-cache';
@@ -456,22 +456,28 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
 
                       <div className="bg-slate-950 p-4 rounded-lg border border-slate-800">
                         <h3 className="text-slate-200 font-medium mb-2 flex items-center gap-2">
-                          <Terminal size={16} className="text-red-400" /> 2. {t("Instalar Node.js (v22+) e Git no", "Install Node.js (v22+) and Git on")} {wslDistro.split('-')[0]} (WSL)
+                          <Terminal size={16} className="text-red-400" /> 2. {t("Instalar Node.js (22+) e Git no", "Install Node.js (22+) and Git on")} {wslDistro.split('-')[0]} (WSL)
                         </h3>
-                        <p className="text-xs text-slate-500 mb-2">{t("O OpenClaw requer Node.js v22 ou superior. Execute no terminal do", "OpenClaw requires Node.js v22 or higher. Execute in the terminal of")} {wslDistro.split('-')[0]}:</p>
+                        <p className="text-xs text-slate-500 mb-2">{t("O OpenClaw requer Node.js 22+ (recomendado: 24 LTS). No WSL, a forma mais estável é via nvm. Execute no terminal do", "OpenClaw requires Node.js 22+ (recommended: 24 LTS). On WSL, the most stable approach is via nvm. Run in the terminal of")} {wslDistro.split('-')[0]}:</p>
                         <div className="relative group">
                           <pre className="text-sm font-mono text-emerald-400 bg-black p-3 rounded overflow-x-auto">
-                            sudo apt-get update && sudo apt-get install -y curl git build-essential python3{'\n'}
-                            curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -{'\n'}
-                            sudo apt-get install -y nodejs{'\n'}
-                            node -v
+                            sudo apt-get update && sudo apt-get install -y curl git build-essential{'\n'}
+                            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash{'\n'}
+                            {'\n'}
+                            {'# '}IMPORTANTE: feche e reabra o terminal, depois:{'\n'}
+                            nvm install 24{'\n'}
+                            nvm use 24{'\n'}
+                            nvm alias default 24{'\n'}
+                            {'\n'}
+                            node --version{'\n'}
+                            npm --version
                           </pre>
-                          <button onClick={() => copyToClipboard('sudo apt-get update && sudo apt-get install -y curl git build-essential python3\ncurl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -\nsudo apt-get install -y nodejs\nnode -v', 'req2_wsl_native')} className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                          <button onClick={() => copyToClipboard('sudo apt-get update && sudo apt-get install -y curl git build-essential\ncurl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash\n\n# IMPORTANTE: feche e reabra o terminal, depois:\nnvm install 24\nnvm use 24\nnvm alias default 24\n\nnode --version\nnpm --version', 'req2_wsl_native')} className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
                             {copiedStates['req2_wsl_native'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                           </button>
                         </div>
                         <p className="text-xs text-amber-500 mt-2 font-medium bg-amber-500/10 inline-block px-2 py-1 rounded">
-                          {t("Deve exibir v22.x.x (ou superior).", "Should display v22.x.x (or higher).")}
+                          {t("Deve exibir v24.x.x (ou superior).", "Should display v24.x.x (or higher).")}
                         </p>
                       </div>
 
@@ -822,12 +828,12 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                       
                       <div className="relative group">
                         <pre className="text-sm font-mono text-emerald-400 bg-black p-4 rounded-lg overflow-x-auto border border-slate-800">
-                          curl -fsSL https://openclaw.ai/install.sh | bash{'\n'}
+                          npm install -g openclaw@latest{'\n'}
                           {'\n'}
                           {'# '}Verificar instalação{'\n'}
                           openclaw --version
                         </pre>
-                        <button onClick={() => copyToClipboard('curl -fsSL https://openclaw.ai/install.sh | bash\nopenclaw --version', 'setup_wsl')} className="absolute top-3 right-3 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                        <button onClick={() => copyToClipboard('npm install -g openclaw@latest\nopenclaw --version', 'setup_wsl')} className="absolute top-3 right-3 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
                           {copiedStates['setup_wsl'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                         </button>
                       </div>
@@ -976,37 +982,71 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
 
                     <div className="bg-slate-950 p-5 rounded-lg border border-slate-800 shadow-sm">
                       <h3 className="text-sm font-medium text-slate-200 mb-3 flex items-center gap-2">
-                        <LayoutDashboard size={16} className="text-red-400" /> 3. {t("Abrir o Dashboard (Control UI)", "Open Dashboard (Control UI)")}
+                        <Layers size={16} className="text-red-400" /> 3. {t("Conectar um Canal (WhatsApp)", "Connect a Channel (WhatsApp)")}
                       </h3>
-                      <p className="text-sm text-slate-500 mb-4">{t("Abra a UI no navegador com o comando oficial:", "Open the UI in your browser using the official command:")}</p>
+                      <p className="text-sm text-slate-500 mb-4">{t("O guia oficial recomenda começar conectando o WhatsApp:", "The official guide recommends starting by connecting WhatsApp:")}</p>
                       <div className="relative group">
                         <pre className="text-sm font-mono text-emerald-400 bg-black p-4 rounded-lg overflow-x-auto border border-slate-800">
-                          openclaw dashboard
+                          openclaw channel add whatsapp
                         </pre>
-                        <button onClick={() => copyToClipboard('openclaw dashboard', 'exec_wsl_dash')} className="absolute top-3 right-3 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
-                          {copiedStates['exec_wsl_dash'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
+                        <button onClick={() => copyToClipboard('openclaw channel add whatsapp', 'exec_wsl_channel_whatsapp')} className="absolute top-3 right-3 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                          {copiedStates['exec_wsl_channel_whatsapp'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                         </button>
                       </div>
-                      <p className="text-xs text-slate-500 mt-3">
-                        {t("Alternativa: a Control UI normalmente fica em http://127.0.0.1:18789/ na máquina do gateway.", "Alternative: the Control UI is usually available at http://127.0.0.1:18789/ on the gateway host.")}
-                      </p>
+                      <p className="text-xs text-slate-500 mt-3">{t("Se o QR não aparecer, reinicie o gateway:", "If the QR doesn't show up, restart the gateway:")}</p>
+                      <div className="relative group">
+                        <pre className="text-sm font-mono text-emerald-400 bg-black p-4 rounded-lg overflow-x-auto border border-slate-800">
+                          openclaw gateway restart
+                        </pre>
+                        <button onClick={() => copyToClipboard('openclaw gateway restart', 'exec_wsl_gateway_restart')} className="absolute top-3 right-3 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                          {copiedStates['exec_wsl_gateway_restart'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
+                        </button>
+                      </div>
                     </div>
 
                     <div className="bg-slate-950 p-5 rounded-lg border border-slate-800 shadow-sm">
                       <h3 className="text-sm font-medium text-slate-200 mb-3 flex items-center gap-2">
-                        <Play size={16} className="text-emerald-400" /> 4. {t("Iniciar Gateway Manualmente (Opcional)", "Start Gateway Manually (Optional)")}
+                        <Terminal size={16} className="text-emerald-400" /> 4. {t("Ver Logs em Tempo Real", "View Logs in Real Time")}
                       </h3>
-                      <p className="text-sm text-slate-500 mb-4">{t("Se preferir iniciar o gateway manualmente sem o daemon:", "If you prefer to start the gateway manually without daemon:")}</p>
-                      <div className="relative group flex items-stretch">
-                        <pre className="flex-1 text-sm font-mono text-emerald-400 bg-black p-4 rounded-l-lg overflow-x-auto border border-slate-800 border-r-0">
-                          openclaw gateway --port {port} --verbose
+                      <p className="text-sm text-slate-500 mb-4">{t("Se o bot não responder, veja os logs em tempo real:", "If the bot doesn't respond, view logs in real time:")}</p>
+                      <div className="relative group">
+                        <pre className="text-sm font-mono text-emerald-400 bg-black p-4 rounded-lg overflow-x-auto border border-slate-800">
+                          openclaw gateway logs -f
                         </pre>
-                        <button onClick={() => copyToClipboard(`openclaw gateway --port ${port} --verbose`, 'exec_wsl')} className="bg-red-600 hover:bg-red-500 text-white px-6 rounded-r-lg font-medium flex flex-col items-center justify-center gap-1 transition-colors border border-red-600">
-                          {copiedStates['exec_wsl'] ? <CheckCircle2 size={18} /> : <Play size={18} fill="currentColor" />}
-                          <span className="text-xs">{copiedStates['exec_wsl'] ? t('Copiado', 'Copied') : t('Executar', 'Run')}</span>
+                        <button onClick={() => copyToClipboard('openclaw gateway logs -f', 'exec_wsl_logs')} className="absolute top-3 right-3 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                          {copiedStates['exec_wsl_logs'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
                         </button>
                       </div>
-                      <p className="text-xs text-slate-500 mt-3">{t("Mantenha este terminal aberto. Para rodar em background, use o daemon instalado pelo wizard ou pm2.", "Keep this terminal open. To run in background, use the daemon installed by wizard or pm2.")}</p>
+                    </div>
+
+                    <div className="bg-slate-950 p-5 rounded-lg border border-slate-800 shadow-sm">
+                      <h3 className="text-sm font-medium text-slate-200 mb-3 flex items-center gap-2">
+                        <ShieldCheck size={16} className="text-emerald-400" /> 5. {t("Diagnóstico", "Diagnostics")}
+                      </h3>
+                      <p className="text-sm text-slate-500 mb-4">{t("Para identificar problemas automaticamente:", "To automatically identify issues:")}</p>
+                      <div className="relative group">
+                        <pre className="text-sm font-mono text-emerald-400 bg-black p-4 rounded-lg overflow-x-auto border border-slate-800">
+                          openclaw doctor
+                        </pre>
+                        <button onClick={() => copyToClipboard('openclaw doctor', 'exec_wsl_doctor')} className="absolute top-3 right-3 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                          {copiedStates['exec_wsl_doctor'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-950 p-5 rounded-lg border border-slate-800 shadow-sm">
+                      <h3 className="text-sm font-medium text-slate-200 mb-3 flex items-center gap-2">
+                        <RefreshCw size={16} className="text-emerald-400" /> 6. {t("Atualizar", "Update")}
+                      </h3>
+                      <p className="text-sm text-slate-500 mb-4">{t("Para atualizar para a versão estável mais recente:", "To update to the latest stable version:")}</p>
+                      <div className="relative group">
+                        <pre className="text-sm font-mono text-emerald-400 bg-black p-4 rounded-lg overflow-x-auto border border-slate-800">
+                          openclaw update --channel stable
+                        </pre>
+                        <button onClick={() => copyToClipboard('openclaw update --channel stable', 'exec_wsl_update')} className="absolute top-3 right-3 p-1.5 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                          {copiedStates['exec_wsl_update'] ? <CheckCircle2 size={16} className="text-emerald-500" /> : <Copy size={16} />}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -1143,8 +1183,8 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                           <div>
                             <span className="text-xs text-slate-400 font-medium">{t("Diagnóstico e Reparação:", "Diagnostics and Fix:")}</span>
                             <div className="relative group mt-1">
-                              <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">node dist/index.js doctor --fix</pre>
-                              <button onClick={() => copyToClipboard('node dist/index.js doctor --fix', 'cmd_easyp_doc')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                              <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">node dist/index.js doctor</pre>
+                              <button onClick={() => copyToClipboard('node dist/index.js doctor', 'cmd_easyp_doc')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
                                 {copiedStates['cmd_easyp_doc'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
                               </button>
                             </div>
@@ -1226,11 +1266,20 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                         {os === 'wsl' ? (
                           <>
                             <div>
-                              <span className="text-xs text-slate-400 font-medium">{t("Iniciar Gateway:", "Start Gateway:")}</span>
+                              <span className="text-xs text-slate-400 font-medium">{t("Conectar WhatsApp:", "Connect WhatsApp:")}</span>
                               <div className="relative group mt-1">
-                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw gateway --port {port} --verbose</pre>
-                                <button onClick={() => copyToClipboard(`openclaw gateway --port ${port} --verbose`, 'cmd_wsl_start')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
-                                  {copiedStates['cmd_wsl_start'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw channel add whatsapp</pre>
+                                <button onClick={() => copyToClipboard('openclaw channel add whatsapp', 'cmd_wsl_channel_whatsapp')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                                  {copiedStates['cmd_wsl_channel_whatsapp'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("QR não aparece (reiniciar gateway):", "QR not showing (restart gateway):")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw gateway restart</pre>
+                                <button onClick={() => copyToClipboard('openclaw gateway restart', 'cmd_wsl_gateway_restart')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                                  {copiedStates['cmd_wsl_gateway_restart'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                 </button>
                               </div>
                             </div>
@@ -1244,20 +1293,92 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                               </div>
                             </div>
                             <div>
-                              <span className="text-xs text-slate-400 font-medium">{t("Abrir Dashboard:", "Open Dashboard:")}</span>
+                              <span className="text-xs text-slate-400 font-medium">{t("Logs em tempo real:", "Real-time logs:")}</span>
                               <div className="relative group mt-1">
-                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw dashboard</pre>
-                                <button onClick={() => copyToClipboard('openclaw dashboard', 'cmd_wsl_dashboard')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
-                                  {copiedStates['cmd_wsl_dashboard'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw gateway logs -f</pre>
+                                <button onClick={() => copyToClipboard('openclaw gateway logs -f', 'cmd_wsl_logs')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                                  {copiedStates['cmd_wsl_logs'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                 </button>
                               </div>
                             </div>
                             <div>
-                              <span className="text-xs text-slate-400 font-medium">{t("Diagnóstico e Reparação:", "Diagnostics and Fix:")}</span>
+                              <span className="text-xs text-slate-400 font-medium">{t("Diagnóstico:", "Diagnostics:")}</span>
                               <div className="relative group mt-1">
-                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw doctor --fix</pre>
-                                <button onClick={() => copyToClipboard('openclaw doctor --fix', 'cmd_wsl_doc')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
-                                  {copiedStates['cmd_wsl_doc'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw doctor</pre>
+                                <button onClick={() => copyToClipboard('openclaw doctor', 'cmd_wsl_doctor')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                                  {copiedStates['cmd_wsl_doctor'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Atualizar (stable):", "Update (stable):")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw update --channel stable</pre>
+                                <button onClick={() => copyToClipboard('openclaw update --channel stable', 'cmd_wsl_update')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                                  {copiedStates['cmd_wsl_update'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Ajuda (ver todos os comandos):", "Help (see all commands):")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw --help</pre>
+                                <button onClick={() => copyToClipboard('openclaw --help', 'cmd_wsl_help')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                                  {copiedStates['cmd_wsl_help'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Ver configuração atual:", "View current config:")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw config get</pre>
+                                <button onClick={() => copyToClipboard('openclaw config get', 'cmd_wsl_config_get')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                                  {copiedStates['cmd_wsl_config_get'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Editar config.yaml (padrão):", "Edit config.yaml (default):")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">nano ~/.openclaw/config.yaml</pre>
+                                <button onClick={() => copyToClipboard('nano ~/.openclaw/config.yaml', 'cmd_wsl_config_edit')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                                  {copiedStates['cmd_wsl_config_edit'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Health check (API REST local):", "Health check (local REST API):")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">curl http://localhost:{port}/health</pre>
+                                <button onClick={() => copyToClipboard(`curl http://localhost:${port}/health`, 'cmd_wsl_health')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                                  {copiedStates['cmd_wsl_health'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Skills instaladas:", "Installed skills:")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw skill list</pre>
+                                <button onClick={() => copyToClipboard('openclaw skill list', 'cmd_wsl_skill_list')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                                  {copiedStates['cmd_wsl_skill_list'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Verificar skill (fonte/badge):", "Check skill (source/badge):")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw skill info nome-do-skill</pre>
+                                <button onClick={() => copyToClipboard('openclaw skill info nome-do-skill', 'cmd_wsl_skill_info')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                                  {copiedStates['cmd_wsl_skill_info'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Instalar skill (exemplo):", "Install a skill (example):")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">openclaw skill install browser-control</pre>
+                                <button onClick={() => copyToClipboard('openclaw skill install browser-control', 'cmd_wsl_skill_install')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                                  {copiedStates['cmd_wsl_skill_install'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                 </button>
                               </div>
                             </div>
@@ -1288,6 +1409,15 @@ CMD ["npx", "openclaw", "gateway", "run"]`;
                                 <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">docker compose logs -f openclaw</pre>
                                 <button onClick={() => copyToClipboard('docker compose logs -f openclaw', 'cmd_docker_logs')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
                                   {copiedStates['cmd_docker_logs'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                                </button>
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-xs text-slate-400 font-medium">{t("Health check (API REST):", "Health check (REST API):")}</span>
+                              <div className="relative group mt-1">
+                                <pre className="text-xs font-mono text-emerald-400 bg-black p-2.5 rounded border border-slate-800 overflow-x-auto">curl http://127.0.0.1:{port}/health</pre>
+                                <button onClick={() => copyToClipboard(`curl http://127.0.0.1:${port}/health`, 'cmd_docker_health')} className="absolute top-1.5 right-1.5 p-1 bg-slate-800 text-slate-300 hover:text-white rounded border border-slate-700 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+                                  {copiedStates['cmd_docker_health'] ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                 </button>
                               </div>
                             </div>
